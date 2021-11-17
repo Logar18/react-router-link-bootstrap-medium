@@ -7,17 +7,22 @@ class AuthService {
       return axios
         .post(API_URL + "/login", { username, password })
         .then((response) => {
-          console.log(response.data)
-  
+          if (response.data.accessToken) {
+            localStorage.setItem("user", JSON.stringify(response.data));
+          }
           return response.data;
         });
     }
   
-    register(username, email, password) {
+    logout() {
+      localStorage.removeItem("user");
+    }
+
+    register(username, password, phoneNumber) {
       return axios.post(API_URL + "signup", {
         username,
-        email,
         password,
+        phoneNumber,
       });
     }
   }
